@@ -1,6 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
+export const fetchContact = createAsyncThunk(
+    'contact/fetchContact',
+    async function () {
+        const response = await fetch();
+        const data = await
+    }
+)
 
 export const contactsSlice = createSlice({
     name: 'contacts',
@@ -18,7 +26,9 @@ export const contactsSlice = createSlice({
         filteredContacts(state, action) {
             state.filter = action.payload;
         }
-    }
+    },
+    extr
+
 });
 export const { addContact, deleteContact, filteredContacts } = contactsSlice.actions;
 

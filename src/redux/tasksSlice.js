@@ -1,21 +1,40 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
+import axios from 'axios';
 import storage from 'redux-persist/lib/storage';
 
+axios.defaults.baseURL = 'https://637c7e5a16c1b892ebb51407.mockapi.io/api/';
 
 export const fetchContact = createAsyncThunk(
   'contact/fetchContact',
   async function (_, { rejectWithValue }) {
     try {
-      const response = await fetch(
-        'https://image.tmdb.org/t/p/w500trending/movie/day?api_key=3290f7c502e8a1167263be702b28bdfc'
+      const response = await axios.get(
+        `https://637c7e5a16c1b892ebb51407.mockapi.io/api/contact?page=1&limit=10`
       );
-      if (!response.ok) {
+      
+      if (response.statusText.ok) {
         throw new Error('server error');
       }
-      const data = await response.json();
-      console.log(data);
+      const data = response;
       return data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const deleteContactApi = createAsyncThunk(
+  'contact/fetchContact',
+  async function (id, { rejectWithValue, dispatch }) {
+    try {
+      const response = await axios.get(`contact?page=1&limit=10`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('can`t delete contact Server error');
+      }
+      dispatch(deleteContact(id))
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -48,7 +67,7 @@ export const contactsSlice = createSlice({
     },
     [fetchContact.fulfilled]: (state, action) => {
       state.status = 'resolved';
-      state.contacts = action.payload;
+      state.items = action.payload.data;
     },
     [fetchContact.rejected]: (state, action) => {
       state.status = 'rejected';

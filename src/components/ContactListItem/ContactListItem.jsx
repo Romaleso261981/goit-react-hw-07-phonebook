@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import { deleteContact } from '../../redux/tasksSlice';
 import { SpanName, SpanNumber, ContactBtn, ContactItem } from './ContactListItem.styled';
 
-export const ContactListItem = ({ item: { id, number, name } }) => {
+export const ContactListItem = ({ item: { id, tel, name } }) => {
   const dispatch = useDispatch();
   return (
     <ContactItem>
       <SpanName>{name}</SpanName>
-      <SpanNumber>{number}</SpanNumber>
+      <SpanNumber>{tel}</SpanNumber>
       <ContactBtn type="button" onClick={() => dispatch(deleteContact(id))}>
         Delete
       </ContactBtn>

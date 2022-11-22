@@ -2,22 +2,21 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+
 export const fetchContact = createAsyncThunk(
   'contact/fetchContact',
   async function (_, { rejectWithValue }) {
-    const response = await fetch("https://image.tmdb.org/t/p/w500");
-
     try {
-        if (!response.ok) {
-          console.log("if");
+      const response = await fetch(
+        'https://image.tmdb.org/t/p/w500trending/movie/day?api_key=3290f7c502e8a1167263be702b28bdfc'
+      );
+      if (!response.ok) {
         throw new Error('server error');
-        }
-        console.log("за +if");
-        const data = await response.json();
-        console.log(response);
+      }
+      const data = await response.json();
+      console.log(data);
       return data;
     } catch (error) {
-        console.log("catch");
       return rejectWithValue(error.message);
     }
   }

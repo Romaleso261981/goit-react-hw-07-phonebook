@@ -12,9 +12,10 @@ export const ContactList = () => {
   );
   return (
     <List>
-      {filteredItems.map(item => (
+      {filteredItems.map(item => {
+        return (
         <ContactListItem key={item.id} item={item} />
-      ))}
+      )})}
     </List>
   );
 };

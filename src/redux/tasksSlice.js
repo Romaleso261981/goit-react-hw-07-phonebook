@@ -1,54 +1,19 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice} from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
-import axios from 'axios';
+import { fetchContact, deleteContactApi, addContactApi } from './operations/operations';
 import storage from 'redux-persist/lib/storage';
 
-axios.defaults.baseURL = 'https://637c7e5a16c1b892ebb51407.mockapi.io/api/';
-
-export const fetchContact = createAsyncThunk(
-  'contact/fetchContact',
-  async function (_, { rejectWithValue }) {
-    try {
-      const response = await axios.get(
-        `https://637c7e5a16c1b892ebb51407.mockapi.io/api/contact?page=1&limit=10`
-      );
-      
-      if (response.statusText.ok) {
-        throw new Error('server error');
-      }
-      const data = response;
-      return data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue(error.message);
-    }
-  }
-);
-export const deleteContactApi = createAsyncThunk(
-  'contact/fetchContact',
-  async function (id, { rejectWithValue, dispatch }) {
-    try {
-      const response = await axios.get(`contact?page=1&limit=10`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error('can`t delete contact Server error');
-      }
-      dispatch(deleteContact(id))
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
 
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
     filter: '',
+    isLoading: false,
     status: null,
     error: null,
   },
+  
   reducers: {
     addContact(state, action) {
       state.items.push(action.payload);
@@ -62,15 +27,52 @@ export const contactsSlice = createSlice({
   },
   extraReducers: {
     [fetchContact.pending]: state => {
+      console.log("fetchContact.pending");
       state.status = 'loading';
       state.error = null;
     },
     [fetchContact.fulfilled]: (state, action) => {
+    console.log("fetchContact.fulfilled");
       state.status = 'resolved';
+      state.error = null;
       state.items = action.payload.data;
     },
     [fetchContact.rejected]: (state, action) => {
+      console.log("fetchContact.rejected");
       state.status = 'rejected';
+      state.error = action.payload;
+    },
+    [addContactApi.pending](state) {
+      console.log("addContactApi.pending");
+      state.isLoading = true;
+    },
+    [addContactApi.fulfilled](state, action) {
+      console.log("addContactApi.fulfilled");
+      state.isLoading = false;
+      state.error = null;
+      state.items.push(action.payload);
+    },
+    [addContactApi.rejected](state, action) {
+      console.log("addContactApi.rejected");
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [deleteContactApi.pending](state) {
+      console.log("deleteContactApi.pending");
+      state.isLoading = true;
+    },
+    [deleteContactApi.fulfilled](state, action) {
+      console.log("deleteContactApi.fulfilled");
+      state.isLoading = false;
+      state.error = null;
+      const index = state.items.findIndex(
+        task => task.id === action.payload.id
+      );
+      state.items.splice(index, 1);
+    },
+    [deleteContactApi.rejected](state, action) {
+      console.log("deleteContactApi.rejected");
+      state.isLoading = false;
       state.error = action.payload;
     },
   },
@@ -85,6 +87,8 @@ export const getFilter = state => state.contacts.filter;
 export const getStatus = state => state.contacts.status;
 
 export const getError = state => state.contacts.error;
+
+export const getIsLoading = state => state.contacts.isLoading;
 
 const persistConfig = {
   key: 'root',

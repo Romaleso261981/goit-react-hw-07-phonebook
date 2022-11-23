@@ -1,6 +1,6 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/tasksSlice';
+import { deleteContactApi } from '../../redux/operations/operations';
 import { SpanName, SpanNumber, ContactBtn, ContactItem } from './ContactListItem.styled';
 
 export const ContactListItem = ({ item: { id, tel, name } }) => {
@@ -9,7 +9,7 @@ export const ContactListItem = ({ item: { id, tel, name } }) => {
     <ContactItem>
       <SpanName>{name}</SpanName>
       <SpanNumber>{tel}</SpanNumber>
-      <ContactBtn type="button" onClick={() => dispatch(deleteContact(id))}>
+      <ContactBtn type="button" onClick={() => dispatch(deleteContactApi(id))}>
         Delete
       </ContactBtn>
     </ContactItem>
@@ -18,10 +18,10 @@ export const ContactListItem = ({ item: { id, tel, name } }) => {
 
 export default ContactListItem;
 
-// ContactListItem.propTypes = {
-//   contacts: PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     number: PropTypes.string.isRequired,
-//   }),
-// };
+ContactListItem.propTypes = {
+  contacts: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
+  }),
+};

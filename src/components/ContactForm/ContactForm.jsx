@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
-import { addContact, fetchContact } from '../../redux/tasksSlice';
+import { addContactApi} from '../../redux/operations/operations';
+import { fetchContact} from '../../redux/operations/operations';
 import { getItems } from '../../redux/tasksSlice';
 import Notiflix from 'notiflix';
 
@@ -39,7 +40,7 @@ const ContactForm = () => {
       return;
     }
     event.preventDefault();
-    dispatch(addContact({ id: nanoid(), name, number }));
+    dispatch(addContactApi({ id: nanoid(), name, number }));
     setName('');
     setNumber('');
   };

@@ -1,5 +1,4 @@
 import ContactForm from '../components/ContactForm/ContactForm';
-import { NotificationSpan } from './AppStyle.js';
 import { useSelector } from 'react-redux';
 import { ContactList } from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -8,6 +7,7 @@ import { getError } from "../redux/tasksSlice";
 import { getIsLoading } from "../redux/tasksSlice";
 
 import Notification from './Notification/Notification';
+import { NotificationSpan, TitleWrap } from './AppStyle';
 
 export const App = () => {
   const items = useSelector(getItems);
@@ -17,8 +17,8 @@ export const App = () => {
     
     <>
       <ContactForm />
-      {isLoading && <h2>Loading....</h2>}
-      {error && <h2>An error occerd: { error }</h2>}
+      {isLoading && <TitleWrap>Loading....</TitleWrap>}
+      {error && <TitleWrap>An error occerd: { error }</TitleWrap>}
       {items.length > 0 && <Filter />}
       {items.length > 0 ? (
         <ContactList />

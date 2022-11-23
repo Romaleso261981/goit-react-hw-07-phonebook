@@ -10,9 +10,13 @@ export const ContactList = () => {
   const filteredItems = items.filter(item =>
     item.name.toLowerCase().includes(filter.toLowerCase())
   );
-  return (
+  let data = []
+  if (!filteredItems === undefined) {
+    data = filteredItems
+  }
+  return (  
     <List>
-      {filteredItems.map(item => {
+      {data.map(item => {
         return (
         <ContactListItem key={item.id} item={item} />
       )})}

@@ -4,16 +4,12 @@ import { fetchContact, deleteContactApi, addContactApi } from './operations/oper
 import storage from 'redux-persist/lib/storage';
 
 const handlePending = state => {
-  console.log("pending");
   state.isLoading = true;
-  state.status = 'loading';
   state.error = null;
 };
 
 const handleRejected = (state, action) => {
-  console.log("rejected");
   state.isLoading = true;
-  state.status = 'rejected';
   state.error = action.payload;
 };
 

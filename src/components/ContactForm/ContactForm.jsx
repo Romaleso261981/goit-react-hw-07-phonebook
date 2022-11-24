@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import { addContactApi} from '../../redux/operations/operations';
 import { fetchContact} from '../../redux/operations/operations';
 import { getItems } from '../../redux/tasksSlice';
@@ -40,7 +40,7 @@ const ContactForm = () => {
       return;
     }
     event.preventDefault();
-    dispatch(addContactApi({ id: nanoid(), name, number }));
+    dispatch(addContactApi({ name, number }));
     setName('');
     setNumber('');
   };

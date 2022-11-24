@@ -42,10 +42,10 @@ export const contactsSlice = createSlice({
     [deleteContactApi.rejected]: handleRejected,
     [addContactApi.rejected]: handleRejected,
     [fetchContact.fulfilled]: (state, action) => {
-    console.log("fetchContact.fulfilled");
       state.status = 'resolved';
       state.isLoading = false;
       state.error = null;
+      console.log(action.payload.data);
       state.items = action.payload.data;
     },
     [addContactApi.fulfilled](state, action) {

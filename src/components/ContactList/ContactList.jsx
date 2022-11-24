@@ -11,8 +11,9 @@ export const ContactList = () => {
     item.name.toLowerCase().includes(filter.toLowerCase())
   );
   let data = []
-  if (!filteredItems === undefined) {
+  if (filteredItems !== undefined) {
     data = filteredItems
+    console.log(data);
   }
   return (  
     <List>

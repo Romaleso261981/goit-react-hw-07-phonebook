@@ -5,7 +5,7 @@ import { SpanName, SpanNumber, ContactBtn, ContactItem } from './ContactListItem
 
 export const ContactListItem = ({ item: { id, text } }) => {
   const dispatch = useDispatch();
-  
+  console.log(text.name);
   return (
     <ContactItem>
       <SpanName>{text.name}</SpanName>
